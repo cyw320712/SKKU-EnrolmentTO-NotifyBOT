@@ -1,0 +1,9 @@
+{
+    "studentID":"학번",
+    "password":"Type ur password",
+    "waitingList":[
+        "학수번호",
+        "리스트로",
+        "작성하기"
+    ]
+}
