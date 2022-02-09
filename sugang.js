@@ -7,8 +7,10 @@ const ejs = require('ejs');
 const beep = require('node-beep');
 const fs = require('fs');
 
-const updatePeriod = 3500;
-const updatePeriodError = 300;
+const updatePeriod = 30000; // 30000ms (30s)
+const updatePeriodError = 3000; //3000ms (3s)
+const interval = 15000; //15000ms (15s)
+let beforePeriod = 0;
 let updateIndex = 0;
 
 let requestBundle = null;
@@ -46,7 +48,9 @@ async function macro_script(){
     }, requestBundle.studentID, requestBundle.password);
 
     await updatePage(page);
-    setInterval(updatePage, getRandom(updatePeriod, updatePeriodError), page);
+    let period = getRandom(updatePeriod);
+    setInterval(updatePage, period, page);
+    beforePeriod = period;
 }
 
 async function updatePage(page){
@@ -100,8 +104,17 @@ async function updatePage(page){
     }
 }
 
-function getRandom(offset, phase){
-    return Math.floor(Math.random()*2*phase) + offset;
+function getRandom(offset){
+    //Because server managers detects this macro, need to act more like a human.
+    //period (offset - interval ~ offset + interval)
+    
+    if (beforePeriod == 0)
+        return Math.floor((Math.random()-0.5)*2*interval) + offset;
+    let time = offset + interval - beforePeriod;
+    beforePeriod = 0;
+    return time;
+    
+    // return Math.floor(Math.random()*2*phase) + offset;
 }
 
 function isMatchedTitle(title){
