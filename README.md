@@ -11,6 +11,6 @@
 ### 조영훈[@shyunku](https://github.com/cyw320712)
 * 원본 제작<br>
 
-### 최영우(key file format 추가)
+### 최영우[@cyw320712](https://github.com/cyw320712)
 * Key file format 추가
 * 새로고침 무작위성 감소(매크로 감지 우회)
