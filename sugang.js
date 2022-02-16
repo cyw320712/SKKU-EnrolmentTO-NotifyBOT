@@ -5,6 +5,7 @@ const cheerio = require('cheerio');
 // const path = require('path');
 // const ejs = require('ejs');
 const fs = require('fs');
+const mailSender = require('./mailer');
 
 const updatePeriod = 30000; // 30000ms (30s)
 const updatePeriodError = 3000; //3000ms (3s)
@@ -99,7 +100,15 @@ async function updatePage(page){
             isAnythingAvailable = isAnythingAvailable | available;
         }
 
-        if(isAnythingAvailable) process.stdout.write('\x07');
+        if(isAnythingAvailable) {
+            process.stdout.write('\x07');
+            let params = {
+                toEmail: "cyw601@gmail.com",
+                subject: "TO occur",
+                text: "수강신청 TO가 발생했습니다! \n sugang.skku.edu 으로 이동해주세요.\n - 수강신청 TO 봇"
+            }
+            mailSender.sendGmail(params);
+        }
     }
 }
 
