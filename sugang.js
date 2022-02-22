@@ -7,12 +7,13 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const mailSender = require('./mailer');
 
-const updatePeriod = 30000; // 30000ms (30s)
+const updatePeriod = 15000; // 30000ms (30s)
 const updatePeriodError = 3000; //3000ms (3s)
 const interval = 15000; //15000ms (15s)
 let beforePeriod = 0;
 let updateIndex = 0;
-
+let time = 0;
+let flag = false;
 let requestBundle = null;
 
 app.listen(9900, async() => {
@@ -49,7 +50,8 @@ async function macro_script(){
 
     await updatePage(page);
     let period = getRandom(updatePeriod);
-    setInterval(updatePage, period, page);
+
+    setInterval(updatePage, 4500, page);
     beforePeriod = period;
 }
 
@@ -78,6 +80,7 @@ async function updatePage(page){
     
     console.clear();
     console.log("Page Watching #"+updateIndex++ +" ["+new Date().format('yyyy-MM-dd a/p hh:mm:ss')+"]\n\n");
+    console.log("This Refresh period is " + beforePeriod + "ms")
 
     for(let i=0;i<lectureList.length;i++){
         const elem = cheerio.load(lectureList[i]);
@@ -87,25 +90,31 @@ async function updatePage(page){
 
         const haksuNum = $(`#listLecture tr[id="${elemId}"] td[aria-describedby="listLecture_haksu_no"]`);
         let isAnythingAvailable = false;
+        let availableLecture = "";
         if(isMatchedTitle(haksuNum.text())){
             const lectureName = $(`#listLecture tr[id="${elemId}"] td[aria-describedby="listLecture_gyogwamok_nm"]`).text();
             const lectureTO = $(`#listLecture tr[id="${elemId}"] td[aria-describedby="listLecture_tot_dhw"]`).text();
             const TO = splitTOstring(lectureTO);
             let available = TO.tot>TO.sub;
-
+            availableLecture = lectureName;
             available?process.stdout.write('\u001b[32m'):process.stdout.write('\u001b[31m');
             process.stdout.write(paddingAfter(haksuNum.text(),12)+" "+lectureName+"\nTO: "+TO.sub+"/"+TO.tot);
             available?process.stdout.write('\u001b[0m'):process.stdout.write('\u001b[m');
-            process.stdout.write("\n");
             isAnythingAvailable = isAnythingAvailable | available;
         }
+        if(isMatchedTitle(haksuNum.text()))
+            flag? process.stdout.write("\n빈 TO가 있었습니다....\n"):process.stdout.write("\n아직까진 없었으니 안심하세요\n");
 
         if(isAnythingAvailable) {
-            process.stdout.write('\x07');
+            flag = true
+            require("child_process").exec("powershell.exe [console]::beep(500,700)");
+            require("child_process").exec("powershell.exe [console]::beep(500,700)");
+            require("child_process").exec("powershell.exe [console]::beep(500,700)");
             let params = {
-                toEmail: "cyw601@gmail.com",
-                subject: "TO occur",
-                text: "수강신청 TO가 발생했습니다! \n sugang.skku.edu 으로 이동해주세요.\n - 수강신청 TO 봇"
+                toEmail: "cyw7515@naver.com",
+                subject: `${availableLecture}`,
+
+                text: `TO가 발생했습니다. ${haksuNum} \n sugang.skku.edu 으로 이동해주세요.\n - 수강신청 TO 봇`
             }
             mailSender.sendGmail(params);
         }
@@ -118,7 +127,7 @@ function getRandom(offset){
     
     if (beforePeriod == 0)
         return Math.floor((Math.random()-0.5)*2*interval) + offset;
-    let time = offset + interval - beforePeriod;
+    time = offset + interval - beforePeriod;
     beforePeriod = 0;
     return time;
     
