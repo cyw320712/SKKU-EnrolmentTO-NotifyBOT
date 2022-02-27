@@ -5,11 +5,10 @@
 
 ## ToDo
   1. **어플 동기화**
+  2. **수강신청 금지 기간 등록**
 
-## Author
-### 조영훈[@shyunku](https://github.com/cyw320712)
-* 원본 제작<br>
-
-### 최영우[@cyw320712](https://github.com/cyw320712)
-* 새로고침 무작위성 감소(매크로 감지 우회)
-* 메일링 API 추가
+## Functions
+  1. **Key.json 입력시 남는 TO 알림**
+  2. **Email.json 입력시 메일로도 알림**<br>
+    (Naver Mail 어플 받으신 후 gmail에서 네이버 메일로 보내면 휴대전화 알람 띄울 수 있습니다.)<br>
+    
