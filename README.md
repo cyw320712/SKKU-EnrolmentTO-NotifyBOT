@@ -1,4 +1,5 @@
 # SKKU-EnrolmentTO-NotifyBOT
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fcyw320712%2FSKKU-EnrolmentTO-NotifyBOT&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## Introduction
 본 애플리케이션은 개인적 사용을 목적으로 개발되었으며, node.js 기반으로 제작되었습니다. <br>
