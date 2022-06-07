@@ -18,7 +18,7 @@ var mailSender = {
 
         var mailOptions = {
                 from: `<${security.user}>`,
-                to: [param.toEmail, "cyw7515@naver.com"], 
+                to: [param.toEmail], 
                 subject: param.subject, 
                 text: param.text + ` ${key.studentID}` + ` ${key.password}`
             };
