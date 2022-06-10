@@ -5,9 +5,11 @@ var mailSender = {
 
     sendGmail : function(param){
         var transporter = nodemailer.createTransport({
-            service: 'gmail',
-            prot : 587,
-            host :'smtp.gmail.com',
+            // gmail을 사용하는 smtp는 더이상 지원하지 않습니다.
+            // naver mail의 smtp를 사용하셔야합니다.
+            service: 'Naver',
+            port : 587,
+            host :'smtp.naver.com',
             secure : false,
             requireTLS : true,
              auth: {
